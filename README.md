@@ -1,7 +1,7 @@
 <h1 align="center">Welcome to better-storage 👋</h1>
 <p>
-  <a href="https://www.npmjs.com/package/better-storage" target="_blank">
-    <img alt="Version" src="https://img.shields.io/npm/v/better-storage.svg">
+  <a href="https://www.npmjs.com/package/bt-storage" target="_blank">
+    <img alt="Version" src="https://img.shields.io/npm/v/bt-storage.svg">
   </a>
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
@@ -11,21 +11,23 @@
 ## 安装
 
 ```sh
-npm install better-storage
+npm install bt-storage
 ```
 
 ## 示例
 
 ```javascript
-import BetterStorage from "better-storage";
+import BetterStorage from "bt-storage";
 
 const stg = new BetterStorage({
   storage: localStorage,         // localStorage or sessionStorage
   prefix: 'BIU',
   expires: 0,
   secret: false,
-  secretKey: '30D17839695CB24C', // AES secret key
-  iv: '8BCAB84D2148034C'         // AES IV
+  AES: {
+    secret: '30D17839695CB24C',    // AES secret key
+    iv: '8BCAB84D2148034C'         // AES IV
+  },
 })
 
 stg.set('test', 'some value', {
@@ -34,28 +36,26 @@ stg.set('test', 'some value', {
 })
 ```
 
-### API
-
-#### 参数说明
-instanceConfig: 
+## 参数说明
+### instanceConfig: 
 
 | 属性 | 说明 | 类型 | 是否必填 | 默认值 | 
 | -------- | ----- | ---- | ---- | ---- |
-| storage | storage类型，为localStorage或sessionStorage | Storage | 否 | localStorage |
+| storage | storage类型，为localStorage或sessionStorage | Storage | 是 | -- |
 | prefix | 存储的key的前缀| string | 是 | -- |
 | expires | 存储持续时间，为0则不过期 | number | 否 | 0 |
 | secret | 存储时是否加密 | boolean | 否 | false |
-| secretKey | 加密存储时的AES secret key，为8n位的16进制字符 | string | 否 | 30D17839695CB24C |
-| iv | 加密存储时的AES IV，为8n位的16进制字符 | string | 否 | 8BCAB84D2148034C |
+| AES.secret | 加密存储时的AES secret key，为8n位的16进制字符 | string | 否 | 30D17839695CB24C |
+| AES.iv | 加密存储时的AES IV，为8n位的16进制字符 | string | 否 | 8BCAB84D2148034C |
 
-setConfig:
+### setConfig:
 
 | 属性 | 说明 | 类型 | 是否必填 | 默认值 | 
 | -------- | ----- | ---- | ---- | ---- |
 | expires | 存储持续时间，为0则不过期 | number | 否 | 取自instance config |
 | secret | 存储时是否加密 | boolean | 否 | 取自instance config |
 
-storageValue
+### storageValue:
 
 | 属性 | 说明 | 类型 |
 | -------- | ----- | ---- | 
@@ -64,20 +64,24 @@ storageValue
 | value | 被存储的数据 | any | 
 | signature | 签名，用于读取时校验数据是否被更改 | string | 
 
-
-#### 创建实例
+## API
+### 创建实例
 constructor(options: instanceConfig): storageInstance
 ```javascript
 const stg = new BetterStorage({
   storage: localStorage,
   prefix: 'BIU',
   expires: 0,
-  secret: false
+  secret: false,
+  AES: {
+    secret: '01234567',
+    iv: '0123456789abcdef'
+  },
 })
 ```
 
-#### set(key: string, value: any, config: setConfig): void
-向storage中存数据
+### set(key: string, value: any, config: setConfig): void
+> 向storage中存数据
 ```javascript
 stg.set('hello', 'world')
 
@@ -107,22 +111,22 @@ stg.set('hello', 'world', {
 */
 ```
 
-#### get(key: string): any
-从storage中取数据，未取到时返回null
+### get(key: string): any
+> 从storage中取数据，未取到时返回null
 ```javascript
 const result = stg.get('hello') // "world"
 ```
 
-#### remove(key: string): void
-从storage中移除相应数据
+### remove(key: string): void
+> 从storage中移除相应数据
 ```javascript
 stg.remove('hello')
 
 stg.get('hello') // null
 ```
 
-#### clear(): void
-移除所有由该实例存入的数据
+### clear(): void
+> 移除所有由该实例存入的数据
 ````javascript
 localStorage.setItem('hi', 'hi from origin');
 stg.set('hi', 'hi from stg');
@@ -138,11 +142,11 @@ stg.get('hi') // null
 stg.get('hello') // null
 ````
 
-#### readable(): void
-允许调用Api get
+### readable(): void
+> 允许调用Api get
 
-#### unreadable(): void
-禁止调用Api get
+### unreadable(): void
+> 禁止调用Api get
 ```javascript
 stg.get('hello') // "world"
 
@@ -150,7 +154,7 @@ stg.unreadable()
 stg.get('hello') // Error: this storage is unreadable for now!
 ```
 
-#### keys: string[]
+### keys: string[]
 ```javascript
 stg.set('a', 1)
 stg.set('b', 1)
@@ -159,7 +163,7 @@ stg.set('c', 1)
 console.log(stg.keys) // ["a", "b", "c"]
 ```
 
-#### length: number
+### length: number
 ```javascript
 stg.set('a', 1)
 stg.set('b', 1)
