@@ -1,0 +1,17 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "./dist",
+    "sourceMap": false,
+    "moduleResolution": "node",
+    "lib": ["es2017", "dom"],
+    "noImplicitAny": false,
+    "noUnusedParameters": true,
+    "module": "amd",
+    "target": "es5",
+    "allowJs": true
+  },
+  "exclude": [
+    "node_modules"
+  ]
+}

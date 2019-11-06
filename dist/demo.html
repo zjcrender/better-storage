@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="storage.js"></script>
+</head>
+<body>
+<script>
+  const stg = new BetterStorage({
+    storage: localStorage,
+    prefix: 'BIU',
+    expires: 0,
+    secret: false
+  })
+
+  stg.set('hello', 'world', {
+    secret: true,
+    expires: 2000,
+  })
+
+  // stg.unreadable()
+  console.log(stg.get('hello'))
+</script>
+</body>
+</html>

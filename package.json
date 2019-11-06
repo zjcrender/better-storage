@@ -1,0 +1,24 @@
+{
+  "name": "better-storage",
+  "version": "0.1.0",
+  "description": "",
+  "main": "dist/storage.js",
+  "types": "index.d.ts",
+  "author": "render",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:zjcrender/better-storage.git"
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack",
+    "prepublish": "npm run build"
+  },
+  "keywords": [],
+  "devDependencies": {
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.6.4",
+    "webpack": "^4.41.2",
+    "webpack-cli": "^3.3.10"
+  }
+}
