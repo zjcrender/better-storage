@@ -1,5 +1,5 @@
 {
-  "name": "better-storage",
+  "name": "bt-storage",
   "version": "0.1.0",
   "description": "",
   "main": "dist/storage.js",
